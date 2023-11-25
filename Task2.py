@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import plotly.graph_objs as go
 
 file = "Kotelenko/student-mat.csv"#поменять!
 
@@ -10,20 +11,12 @@ df = pd.read_csv(file)
 
 df.info()
 
-print(df.isnull().sum()) #узнаем кол-во Null
+print(df.isnull().sum()) #узнаем кол-во Null, так как нету , ничего делать с этим не будем
 
-#ql = """
-#SELECT * 
-#FROM df
-#"""
 
-#result = sqldf(sql)
-#print(result)
+df = df.drop_duplicates()
 
-#df.drop_duplicates()
-
-#result = sqldf(sql)
-#print(result) это сделано чтобы можно было понять, какие столбцы удаленны, так как ответы одинаковые drop_duplicates не нужен 
+df.info() 
 
 numeric_data = df.select_dtypes(include=[np.number])
 
@@ -44,9 +37,26 @@ for col in numeric_data.columns:
 
 df.info()
 
+df = df.replace({'yes': 1, 'no': 0})
+
 numeric_data = df.select_dtypes(include=[np.number])
 corr_matrix = numeric_data.corr()
 
 
-sns.heatmap(corr_matrix, annot=True, cmap="coolwarm")
+sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", annot_kws={"fontsize": "x-small"})
+
+
 plt.show()
+
+fig , ax = plt. subplots(figsize=(10,10))
+y = (df["G1"])
+x = (df["G2"])
+z = (df["failures"])
+
+
+fig = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z, mode='markers', marker=dict(color=z, size=10))])
+
+fig.update_layout(scene=dict(xaxis_title="G2", yaxis_title="G1", zaxis_title="failures"))
+
+fig.show()
+
