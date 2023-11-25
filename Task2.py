@@ -32,12 +32,11 @@ for col in numeric_data.columns:
 
 percent_outliers = {}
 for col in numeric_data.columns:
-    percent_outliers[col] = (outliers[col] / numeric_data[col].shape[0]) * 100
+    percent_outliers[col] = (outliers[col] / numeric_data[col].shape[0])
 
 
 for col, percent in percent_outliers.items():
-    percent = percent/100
     q_low = df[col].quantile(percent)
     print(q_low)
-    q_high = df[col].quantile(0.95)
+    q_high = df[col].quantile(percent)
     print(q_high)    
