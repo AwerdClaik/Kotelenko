@@ -26,17 +26,8 @@ FROM df
 
 numeric_data = df.select_dtypes(include=[np.number])
 
-outliers = {}
 for col in numeric_data.columns:
-    outliers[col] = np.sum(np.abs(numeric_data[col] - np.mean(numeric_data[col])) > 3 * np.std(numeric_data[col]))
-
-percent_outliers = {}
-for col in numeric_data.columns:
-    percent_outliers[col] = (outliers[col] / numeric_data[col].shape[0])
-
-
-for col, percent in percent_outliers.items():
-    q_low = df[col].quantile(percent)
-    print(q_low)
-    q_high = df[col].quantile(percent)
-    print(q_high)    
+    upper_limit = df[col].mean() + 3 * df[col].std()
+    print(f"{col} {upper_limit}")
+    lower_limit = df[col].mean() - 3 * df[col].std()    
+    print(f"{col} {lower_limit}")      
