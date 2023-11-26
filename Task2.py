@@ -45,18 +45,28 @@ corr_matrix = numeric_data.corr()
 
 sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", annot_kws={"fontsize": "x-small"})
 
-
 plt.show()
 
-fig , ax = plt. subplots(figsize=(10,10))
-y = (df["G1"])
+
 x = (df["G2"])
+y = (df["G3"])
 z = (df["failures"])
 
 
 fig = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z, mode='markers', marker=dict(color=z, size=10))])
 
-fig.update_layout(scene=dict(xaxis_title="G2", yaxis_title="G1", zaxis_title="failures"))
+fig.update_layout(scene=dict(xaxis_title="G2", yaxis_title="G3", zaxis_title="failures"))
 
 fig.show()
+
+x = (df["G3"])
+y = (df["G2"])
+z = (df["G1"])
+
+fig = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z, mode='markers', marker=dict(color=z, size=10))])
+
+fig.update_layout(scene=dict(xaxis_title="G3", yaxis_title="G2", zaxis_title="G1"))
+
+fig.show()
+
 
